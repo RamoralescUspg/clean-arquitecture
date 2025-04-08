@@ -1,7 +1,7 @@
 import { Router } from 'express';
 const router = Router();
 
-export function productsRoutes(controller) {
+export function usersRoutes(controller) {
   router.post('/', (req, res) => controller.create(req, res));
   router.get('/', (req, res) => controller.getAll(req, res));
   router.get('/:id', (req, res) => controller.getById(req, res));

@@ -39,7 +39,7 @@ const files = {
 }
 `,
 
-  [`src/application/usecases/${moduleName}/${moduleName}UseCases.js`]: `export class ${pascalCase(moduleName)}UseCases {
+  [`src/application/use_cases/${moduleName}/${moduleName}UseCases.js`]: `export class ${pascalCase(moduleName)}UseCases {
   constructor(${camelCase(moduleName)}Repository) {
     this.${camelCase(moduleName)}Repository = ${camelCase(moduleName)}Repository;
   }
