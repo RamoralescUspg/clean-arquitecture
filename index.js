@@ -1,27 +1,30 @@
 import express from 'express';
 import { UserRepositoryImpl } from './src/infrastructure/database/user.impl.js';
-import { GetUserById } from './src/application/use_cases/get-user-by-id.js';
-import { makeGetUserController } from './src/interfaces/http/controllers/user.controller.js';
+import { UserUseCases } from './src/usecases/userUseCases.js';
+import { UserController } from './src/interfaces/http/controllers/user.controller.js';
+import { userRoutes } from './src/interfaces/http/routes/user.routes.js';
 
 const app = express();
-const db = {
-    users: {
-      data: [
-        { id: '1', name: 'Alice Smith', email: 'alice@example.com' },
-        { id: '2', name: 'Bob Johnson', email: 'bob@example.com' },
-        { id: '3', name: 'Charlie Brown', email: 'charlie@example.com' }
-      ],
-      async findOne({ id }) {
-        return this.data.find((user) => user.id === id) || null;
-      }
-    }
-  };
-  
-const userRepository = new UserRepositoryImpl(db);
-const getUserById = new GetUserById(userRepository);
-const getUserController = makeGetUserController(getUserById);
+app.use(express.json());
 
-app.get('/users/:id', getUserController);
+// Simulación de base de datos en memoria
+const db = {
+  users: {
+    data: [
+      { id: '1', name: 'Alice Smith', email: 'alice@example.com', password: 'secret1' },
+      { id: '2', name: 'Bob Johnson', email: 'bob@example.com', password: 'secret2' },
+      { id: '3', name: 'Charlie Brown', email: 'charlie@example.com', password: 'secret3' }
+    ]
+  }
+};
+
+// Instanciamos el repositorio, casos de uso y controlador
+const userRepository = new UserRepositoryImpl(db);
+const userUseCases = new UserUseCases(userRepository);
+const userController = new UserController(userUseCases);
+
+// Configuramos las rutas para el CRUD de usuarios
+app.use('/api/users', userRoutes(userController));
 
 app.listen(3000, () => {
   console.log('Server running on port 3000');
