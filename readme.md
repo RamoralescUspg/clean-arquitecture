@@ -166,3 +166,142 @@ Aunque tener todo en un solo archivo puede parecer más simple al principio, a m
 
 ![image](https://github.com/user-attachments/assets/3b606a25-1672-4aec-b235-8ba836d766d9)
 
+
+# Proyecto
+## Pasos para ejecutar el proyecto
+- npm install
+- npm run dev
+
+## Nuevos modulos
+1. Crear entidades y clases de contrato o clases pseudo abstractas de javascript:
+```js
+export default class Users {
+  constructor({ id, name="Jhon doe", email="example@gmail.com" }) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+  }
+}
+```
+
+En este caso utilizaremos InMemoryRepository para ahorrar la implementacion de cada uno de los metodos de CRUD.
+`important!` esto deberia ser una interfaz o clase abstracta!
+Debido a las limitaciones de javascript solo se puede extender una clase, sin embargo lo ideal es que la implementacion de la interfaz
+implemente UsersRepository que extiende BaseRepository y nuestra implementacion `UserRepositoryImpl` extienda InMemoryRepository
+```js
+import { InMemoryRepository } from "../../core/repositories/memory-db-repository";
+
+export class UsersRepository extends InMemoryRepository {}
+``` 
+
+2. Crea la capa application 
+En este ejemplo: `userUseCases.js`
+```js
+export class UsersUseCases {
+  constructor(usersRepository) {
+    this.usersRepository = usersRepository;
+  }
+
+  async create(data) {
+    return await this.usersRepository.create(data);
+  }
+
+  async getAll() {
+    return await this.usersRepository.getAll();
+  }
+
+  async getById(id) {
+    return await this.usersRepository.getById(id);
+  }
+
+  async update(id, data) {
+    return await this.usersRepository.update(id, data);
+  }
+
+  async delete(id) {
+    return await this.usersRepository.delete(id);
+  }
+}
+```
+
+3. Crea la capa de `infrastructure`
+Crea el repositorio en este ejemplo `infrastructure/database/usuarios`
+siempre en base a lo que se necesite si se necesitara otra base de datos por ejemplo mongo `infrastructure/mongo/usuarios`
+```js
+import { UsersRepository } from "../../../domain/repositories/UsersRepository.js";
+
+export class UsersRepositoryImpl extends UsersRepository {}
+```
+
+4. Crea la capa de `interfaces`
+En este caso necesitaras crear `user.controller.js` y `user.routes.js` dentro de sus respectivas carpetas
+
+`user.controller.js`
+```js
+import { UsersUseCases } from "../../../../application/use_cases/users/usersUseCases.js";
+
+export class UsersController {
+  constructor(usersUseCases = new UsersUseCases()) {
+    this.usersUseCases = usersUseCases;
+  }
+
+  async create(req, res) {
+    return this.usersUseCases.create(req.body);
+  }
+
+  async getAll(req, res) {
+    return this.usersUseCases.getAll();
+  }
+
+  async getById(req, res) {
+    return this.usersUseCases.getById(req.params.id);
+  }
+
+  async update(req, res) {
+    return this.usersUseCases.update(req.params.id, req.body);
+  }
+  
+  async delete(req, res) {
+    return this.usersUseCases.update(req.params.id);
+  }
+}
+```
+
+`user.routes.js`
+```js
+import { Router } from 'express';
+const router = Router();
+
+export function usersRoutes(controller) {
+  router.post('/', (req, res) => controller.create(req, res));
+  router.get('/', (req, res) => controller.getAll(req, res));
+  router.get('/:id', (req, res) => controller.getById(req, res));
+  router.put('/:id', (req, res) => controller.update(req, res));
+  router.delete('/:id', (req, res) => controller.delete(req, res));
+  return router;
+}
+
+```
+
+5. Configurar modulo `config`
+En la carpeta `config` crea un `user.container.js`
+aqui uniras todas nuestras capas
+```js
+import { UsersRepositoryImpl } from '../infrastructure/database/users/users.impl.js';
+import { UsersUseCases } from '../application/use_cases/users/usersUseCases.js';
+import { UsersController } from '../interfaces/http/controllers/users/users.controller.js';
+import { usersRoutes } from '../interfaces/http/routes/users/users.routes.js';
+import {db} from "../core/databases/db.js";
+
+const userRepository = new UsersRepositoryImpl(db);
+const userUseCases = new UsersUseCases(userRepository);
+const userController = new UsersController(userUseCases);
+
+export default usersRoutes(userController);
+```
+
+Finalmente llama nuestro container en inde.js
+
+``` js
+app.use(userContainer);
+```

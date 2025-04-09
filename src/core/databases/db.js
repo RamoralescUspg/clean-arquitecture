@@ -5,5 +5,6 @@ export const db = {
       { id: '2', name: 'Bob Johnson', email: 'bob@example.com', password: 'secret2' },
       { id: '3', name: 'Charlie Brown', email: 'charlie@example.com', password: 'secret3' }
     ]
-  }
+  },
+  productos: []
 };

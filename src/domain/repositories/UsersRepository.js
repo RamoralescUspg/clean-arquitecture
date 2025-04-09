@@ -1,3 +1,3 @@
-import { MemoryDbBaseRepository } from "../../core/repositories/memorydb-repository.js";
+import { InMemoryRepository } from "../../core/repositories/memory-db-repository";
 
-export class UsersRepository extends MemoryDbBaseRepository {}
+export class UsersRepository extends InMemoryRepository {}
