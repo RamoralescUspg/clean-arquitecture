@@ -1,4 +1,4 @@
-import { UsersUseCases } from "../../../../application/use_cases/users/usersUseCases";
+import { UsersUseCases } from "../../../../application/use_cases/users/usersUseCases.js";
 
 export class UsersController {
   constructor(usersUseCases = new UsersUseCases()) {
