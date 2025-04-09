@@ -34,7 +34,7 @@ export class UsersRepository extends MemoryDbBaseRepository {
 
 ```
 
-### 2. Domain (Dominio)
+### 2. Application/use_cases (Use cases)
 - Contiene la lógica de negocio específica, une las entidades con los repositorios.
 - Se comunica solo con `domain`.
 En este ejemplo vemos un `CRUD` pero pueden ser acciones más simples o complejas.
@@ -135,7 +135,7 @@ Infrastructure (DB, API calls)
 ```
 
 ## Ventajas
-- ✨ Testeable sin necesidad de Express ni DB.
+- ✨ Testeable de manera sencilla.
 - 🔄 Cambiar la base de datos no afecta la lógica.
 - ♻️ Separación clara de responsabilidades.
 - ⚙️ Reutilizable en distintos entornos: web, CLI, móvil.
