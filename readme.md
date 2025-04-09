@@ -164,4 +164,5 @@ Permite modificar tecnologías (como bases de datos o servicios externos) sin af
 - ¿Por qué dividir tanto el código si puedo tenerlo todo en un solo archivo?
 Aunque tener todo en un solo archivo puede parecer más simple al principio, a medida que el proyecto crece, el código puede volverse desordenado y difícil de mantener. Clean Architecture organiza el código en capas, mejorando su mantenibilidad, testeabilidad y escalabilidad.
 
-![image](https://github.com/user-attachments/assets/c19801fa-75bd-48b3-8e12-99b7bc4b1a21)
+![image](https://github.com/user-attachments/assets/3b606a25-1672-4aec-b235-8ba836d766d9)
+
