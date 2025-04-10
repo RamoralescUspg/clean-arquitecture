@@ -1,5 +1,5 @@
 import { BaseRepository } from "../../core/repositories/base-repository.js";
-import { db } from "../db.js"; // Ajusta ruta según tu estructura
+import { db } from "../databases/db.js"; // Ajusta ruta según tu estructura
 import { v4 as uuidv4 } from "uuid";
 
 export class InMemoryRepository extends BaseRepository {
