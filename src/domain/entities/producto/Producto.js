@@ -1,6 +1,8 @@
 export default class Producto {
-  constructor({ id, name }) {
+  constructor({ id, name, price, type }) {
     this.id = id;
     this.name = name;
+    this.price = price;
+    this.type = type;
   }
 }
