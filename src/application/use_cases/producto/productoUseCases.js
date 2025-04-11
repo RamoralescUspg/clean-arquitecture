@@ -1,10 +1,14 @@
+import Producto from "../../../domain/entities/producto/Producto.js";
+
 export class ProductoUseCases {
   constructor(productoRepository) {
     this.productoRepository = productoRepository;
   }
 
   async create(data) {
-    return await this.productoRepository.create(data);
+    const producto = new Producto(data);
+    producto.id = Date.now().toString();
+    return await this.productoRepository.create(producto);
   }
 
   async getAll() {
@@ -16,7 +20,8 @@ export class ProductoUseCases {
   }
 
   async update(id, data) {
-    return await this.productoRepository.update(id, data);
+    const producto = new Producto({ ...data, id });
+    return await this.productoRepository.update(id, producto);
   }
 
   async delete(id) {

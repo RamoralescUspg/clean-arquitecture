@@ -6,22 +6,27 @@ export class UsersController {
   }
 
   async create(req, res) {
-    return this.usersUseCases.create(req.body);
+    const user = await this.usersUseCases.create(req.body);
+    res.status(201).json(user);
   }
 
   async getAll(req, res) {
-    return this.usersUseCases.getAll();
+    const users = await this.usersUseCases.getAll();
+    res.status(200).json(users);
   }
 
   async getById(req, res) {
-    return this.usersUseCases.getById(req.params.id);
+    const user = await this.usersUseCases.getById(req.params.id);
+    res.status(200).json(user);
   }
 
   async update(req, res) {
-    return this.usersUseCases.update(req.params.id, req.body);
+    const user = await this.usersUseCases.update(req.params.id, req.body);
+    res.status(200).json(user);
   }
   
   async delete(req, res) {
-    return this.usersUseCases.update(req.params.id);
+    const user = await this.usersUseCases.delete(req.params.id);
+    res.status(200).json(user);
   }
 }

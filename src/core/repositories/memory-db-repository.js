@@ -3,26 +3,27 @@ import { db } from "../databases/db.js"; // Ajusta ruta según tu estructura
 import { v4 as uuidv4 } from "uuid";
 
 export class InMemoryRepository extends BaseRepository {
-  constructor(collectionKey) {
+  constructor(collectionKey, entityConvertor) {
     super();
     if (!db[collectionKey]) {
       throw new Error(`Collection '${collectionKey}' does not exist in db`);
     }
     this.collection = db[collectionKey].data;
+    this.entityConvertor = entityConvertor;
   }
 
   async create(data) {
     const newItem = { id: uuidv4(), ...data };
     this.collection.push(newItem);
-    return newItem;
+    return this.entityConvertor(newItem);
   }
 
   async getAll() {
-    return this.collection;
+    return this.collection.map(this.entityConvertor);
   }
 
   async getById(id) {
-    return this.collection.find(item => item.id === id) || null;
+    return this.entityConvertor(this.collection.find(item => item.id === id) || null);
   }
 
   async update(id, data) {
@@ -30,7 +31,7 @@ export class InMemoryRepository extends BaseRepository {
     if (index === -1) return null;
 
     this.collection[index] = { ...this.collection[index], ...data };
-    return this.collection[index];
+    return this.entityConvertor(this.collection[index]);
   }
 
   async delete(id) {

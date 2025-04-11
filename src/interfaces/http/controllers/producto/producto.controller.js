@@ -4,7 +4,20 @@ export class ProductoController {
   }
 
   async create(req, res) {
-    /* implement */
+    try {
+      const producto = await this.productoUseCases.create(req.body);
+      
+      return res.status(201).json({
+        success: true,
+        data: producto
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Error al crear el producto",
+        error: error.message
+      });
+    }
   }
   
   async getAll(req, res) {
@@ -37,7 +50,8 @@ export class ProductoController {
   }
   
   async update(req, res) {
-    /* implement */
+    const producto = await this.productoUseCases.update(req.params.id, req.body);
+    res.status(200).json(producto);
   }
 
   async delete(req, res) {
