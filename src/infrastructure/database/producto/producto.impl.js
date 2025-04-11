@@ -9,12 +9,15 @@ export class ProductoRepositoryImpl extends ProductoRepository {
   async create(data) {
     /* implement */
   }
+  
   async getAll() {
     /* implement */
   }
+  
   async getById(id) {
-    /* implement */
+    return (await this.db.products.find((item) => item.id === id)) || null;
   }
+
   async update(id, data) {
     /* implement */
   }
