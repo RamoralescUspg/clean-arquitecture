@@ -8,7 +8,7 @@ app.use(express.json());
 // Simulación de base de datos en memoria
 
 app.use(userContainer);
-app.use(productosContainer);
+app.use('/api/productos', productosContainer);
 app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
