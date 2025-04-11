@@ -6,21 +6,15 @@ export class ProductoRepositoryImpl extends ProductoRepository {
     this.db = database;
   }
 
-  async create(data) {
-    /* implement */
-  }
-  
-  async getAll() {
-    /* implement */
-  }
-  
+  async create(data) {}
+
+  async getAll() {}
+
   async getById(id) {
     return (await this.db.products.find((item) => item.id === id)) || null;
   }
 
-  async update(id, data) {
-    /* implement */
-  }
+  async update(id, data) {}
 
   async delete(id) {
     const productExists = this.db.products.some((p) => p.id === id);
