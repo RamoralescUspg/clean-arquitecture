@@ -15,9 +15,11 @@ export class ProductoRepositoryImpl extends ProductoRepository {
       throw new Error(`Error creating product: ${error.message}`);
     }
   }
-
-  async getAll() {}
-
+//nilo
+  async getAll() {
+    return await this.productoRepository.getAll();
+  }
+//nilo
   async getById(id) {
     return (
       new Producto(await this.db.products.find((item) => item.id === id)) ??
