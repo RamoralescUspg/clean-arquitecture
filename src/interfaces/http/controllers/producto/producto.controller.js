@@ -21,7 +21,20 @@ export class ProductoController {
   }
   
   async getAll(req, res) {
-    /* implement */
+    try {
+      const productos = await this.productoUseCases.getAll();
+      
+      return res.status(200).json({
+        success: true,
+        data: productos
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Error al obtener los productos",
+        error: error.message
+      });
+    }
   }
 
   async getById(req, res) {

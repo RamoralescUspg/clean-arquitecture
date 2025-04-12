@@ -16,7 +16,9 @@ export class ProductoRepositoryImpl extends ProductoRepository {
     }
   }
 
-  async getAll() {}
+  async getAll() {
+    return this.db.products.map((item) => new Producto(item));
+  }
 
   async getById(id) {
     return (
