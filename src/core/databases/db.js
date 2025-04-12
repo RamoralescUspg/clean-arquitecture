@@ -21,5 +21,5 @@ export const db = {
       },
     ],
   },
-  products: [{ id: "1", name: "Pincel", price: 20.0, type: "Art" }],
+  products: [{ id: "1", name: "Pincel", price: 20.0, type: "Arte" }],
 };
