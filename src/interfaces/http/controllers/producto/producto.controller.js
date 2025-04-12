@@ -19,7 +19,7 @@ export class ProductoController {
       });
     }
   }
-  ///nilo
+  
   async getAll(req, res) {
     try {
       const productos = await this.productoUseCases.getAll();
@@ -36,7 +36,7 @@ export class ProductoController {
       });
     }
   }
-///nilo
+
   async getById(req, res) {
     try {
       const { id } = req.params;
